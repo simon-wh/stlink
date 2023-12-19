@@ -44,6 +44,8 @@
     #define MINIMAL_API_VERSION 0x01000108 // v1.0.24
 #elif defined (__linux__)
     #define MINIMAL_API_VERSION 0x01000108 // v1.0.24
+#elif defined (__APPLE__)
+    #define MINIMAL_API_VERSION 0x01000109 // v1.0.25
 #elif defined (_WIN32)
     #define MINIMAL_API_VERSION 0x01000108 // v1.0.24
 #endif
