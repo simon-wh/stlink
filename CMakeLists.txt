@@ -271,7 +271,13 @@ set_target_properties(${STLINK_LIB_SHARED} PROPERTIES
         )
 
 # Link shared library
-if (WIN32) # ... with Windows libraries
+if (APPLE)     # ... with Apple macOS libraries
+    find_library(ObjC objc)
+    find_library(CoreFoundation CoreFoundation)
+    find_library(IOKit IOKit)
+    find_library(Security Security)
+    target_link_libraries(${STLINK_LIB_SHARED} ${LIBUSB_LIBRARY} ${SSP_LIB} ${ObjC} ${CoreFoundation} ${IOKit} ${Security})
+elseif (WIN32) # ... with Windows libraries
     target_link_libraries(${STLINK_LIB_SHARED} ${LIBUSB_LIBRARY} ${SSP_LIB} wsock32 ws2_32)
 else ()
     target_link_libraries(${STLINK_LIB_SHARED} ${LIBUSB_LIBRARY} ${SSP_LIB})
@@ -317,7 +323,13 @@ set_target_properties(${STLINK_LIB_STATIC} PROPERTIES
         )
 
 # Link static library
-if (WIN32) # ... with Windows libraries
+if (APPLE)     # ... with Apple macOS libraries
+    find_library(ObjC objc)
+    find_library(CoreFoundation CoreFoundation)
+    find_library(IOKit IOKit)
+    find_library(Security Security)
+    target_link_libraries(${STLINK_LIB_STATIC} ${LIBUSB_LIBRARY} ${SSP_LIB} ${ObjC} ${CoreFoundation} ${IOKit} ${Security})
+elseif (WIN32) # ... with Windows libraries
     target_link_libraries(${STLINK_LIB_STATIC} ${LIBUSB_LIBRARY} ${SSP_LIB} wsock32 ws2_32)
 else ()
     target_link_libraries(${STLINK_LIB_STATIC} ${LIBUSB_LIBRARY} ${SSP_LIB})
@@ -347,7 +359,7 @@ add_executable(st-info ${ST-INFO_SOURCES})
 add_executable(st-util ${ST-UTIL_SOURCES})
 add_executable(st-trace ${ST-TRACE_SOURCES})
 
-if (WIN32)
+if (WIN32 OR APPLE)
     target_link_libraries(st-flash ${STLINK_LIB_STATIC} ${SSP_LIB})
     target_link_libraries(st-info ${STLINK_LIB_STATIC} ${SSP_LIB})
     target_link_libraries(st-util ${STLINK_LIB_STATIC} ${SSP_LIB})
